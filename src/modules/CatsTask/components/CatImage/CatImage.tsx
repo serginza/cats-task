@@ -1,6 +1,6 @@
 import { memo } from 'react';
 import { CircleLoader } from 'shared/ui';
-import { StyledImg } from './CatImage.style';
+import { StyledNoData, StyledImg } from './CatImage.style';
 import { CatsType } from '../../CatsTask.types';
 
 type Props = {
@@ -9,7 +9,13 @@ type Props = {
 };
 
 function CatImageProto({ url, isLoading }: Props) {
-  if (!url && !isLoading) return null;
+  if (!url && !isLoading)
+    return (
+      <StyledNoData>
+        <div>No data</div>
+        <div>(｡╯︵╰｡)</div>
+      </StyledNoData>
+    );
 
   return isLoading ? <CircleLoader /> : <StyledImg src={url} alt="cat-image" />;
 }
