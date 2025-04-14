@@ -8,7 +8,7 @@ function CatsTaskProto() {
   const [isLoading, setIsLoading] = useState(false);
   const [cats, setCats] = useState<CatsType[]>([]);
   const [enabled, setEnabled] = useState<boolean>(true);
-  const [refrash, setRefrash] = useState<boolean>(false);
+  const [refresh, setRefresh] = useState<boolean>(false);
 
   // обработка запроса в модуле вместо стора, т.к. нет необходимости
   // разделять бизнесс-логику и UI в рамках маленькой формы без использования state-менеджера.
@@ -25,7 +25,7 @@ function CatsTaskProto() {
   }
 
   useEffect(() => {
-    if (refrash) {
+    if (refresh) {
       getCats();
       const interval = setInterval(() => {
         getCats();
@@ -33,14 +33,14 @@ function CatsTaskProto() {
 
       return () => clearInterval(interval);
     }
-  }, [refrash]);
+  }, [refresh]);
 
   const handleChangeEnable = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEnabled(event.target.checked);
   };
 
-  const handleChangeRefrash = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setRefrash(event.target.checked);
+  const handleChangerefresh = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setRefresh(event.target.checked);
   };
 
   // Модуль без Context.Provider т.к. в случае расширения формы это приведет к рефактору логики
@@ -52,18 +52,18 @@ function CatsTaskProto() {
           label={'Enabled'}
           checked={enabled}
           onChange={handleChangeEnable}
-          disabled={refrash}
+          disabled={refresh}
         />
         <CatCheckbox
-          name={'refrash'}
-          label={'Auto-refrash every 5 second'}
-          checked={refrash}
-          onChange={handleChangeRefrash}
+          name={'refresh'}
+          label={'Auto-refresh every 5 second'}
+          checked={refresh}
+          onChange={handleChangerefresh}
         />
         <CatButton
           name={'getCat'}
           label={'Get Cat'}
-          disabled={isLoading || !enabled || refrash}
+          disabled={isLoading || !enabled || refresh}
           onClick={getCats}
         />
       </ControlsWrapper>
